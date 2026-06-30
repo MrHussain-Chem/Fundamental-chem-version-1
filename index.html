@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 9 Chemistry — Atomic Structure & the Periodic Table</title>
+<style>
+  :root {
+    --bg: #FAF3E0;
+    --panel: #FFFDF7;
+    --ink: #2B2B2B;
+    --accent: #2E6E5A;
+    --accent-soft: #DCEDE7;
+    --correct: #1E7A46;
+    --correct-soft: #E4F3E9;
+    --tryagain: #7A5C00;
+    --tryagain-soft: #FBF1D6;
+    --line: #E2D9C2;
+    --label: #6B5E45;
+    --info: #2A5A7A;
+    --info-soft: #E0EDF4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12pt; line-height: 1.6; color: var(--ink);
+    background: var(--bg); margin: 0; padding: 0 16px 80px;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { padding: 24px 0 8px; }
+  h1 { font-size: 18pt; margin: 0 0 4px; color: var(--accent); }
+  .sub { color: var(--label); margin: 0 0 8px; }
+  .tier-pill {
+    display: inline-block; background: var(--accent-soft); color: var(--accent);
+    font-size: 10pt; font-weight: bold; padding: 3px 10px; border-radius: 20px;
+  }
+  .ladder-nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 8px; }
+  .ladder-nav button {
+    font-family: inherit; font-size: 10.5pt; cursor: pointer;
+    background: var(--panel); border: 1.5px solid var(--line);
+    color: var(--ink); padding: 6px 10px; border-radius: 8px;
+  }
+  .ladder-nav button:hover { border-color: var(--accent); }
+
+  section.step {
+    background: var(--panel); border: 1.5px solid var(--line);
+    border-radius: 12px; padding: 18px 18px 20px; margin: 14px 0;
+  }
+  .step-label {
+    font-size: 10pt; font-weight: bold; letter-spacing: .04em;
+    text-transform: uppercase; color: var(--label); margin: 0 0 2px;
+  }
+  h2 { font-size: 14pt; margin: 0 0 10px; color: var(--accent); }
+  h3 { font-size: 12pt; margin: 16px 0 6px; }
+  .instruction {
+    background: var(--accent-soft); color: var(--ink);
+    padding: 8px 12px; border-radius: 8px; margin: 0 0 14px; font-weight: bold;
+  }
+  .topic-tag {
+    display: inline-block; font-size: 9.5pt; font-weight: bold;
+    background: var(--bg); border: 1px solid var(--line);
+    color: var(--label); padding: 2px 8px; border-radius: 6px; margin-bottom: 6px;
+  }
+
+  /* Collapsible info panels (revise / stuck) */
+  details.panel {
+    background: var(--info-soft); border: 1.5px solid #C5DCEA;
+    border-radius: 12px; margin: 12px 0; overflow: hidden;
+  }
+  details.panel > summary {
+    cursor: pointer; padding: 14px 16px; font-weight: bold;
+    font-size: 12.5pt; color: var(--info); list-style: none;
+  }
+  details.panel > summary::-webkit-details-marker { display: none; }
+  details.panel > summary::before { content: "▸ "; }
+  details.panel[open] > summary::before { content: "▾ "; }
+  details.panel .pbody { padding: 0 16px 16px; }
+  details.panel h4 { color: var(--info); margin: 14px 0 4px; font-size: 11.5pt; }
+  .action-step {
+    background: #fff; border-left: 4px solid var(--info);
+    border-radius: 8px; padding: 8px 12px; margin: 8px 0;
+  }
+  .action-step b { color: var(--info); }
+
+  .learn-card { border-left: 4px solid var(--accent); padding: 4px 0 4px 14px; margin: 12px 0; }
+  .learn-card strong { color: var(--accent); }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 11pt; }
+  th, td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; }
+  th { background: var(--accent-soft); }
+
+  .opt {
+    display: block; width: 100%; text-align: left; font-family: inherit;
+    font-size: 11.5pt; cursor: pointer; background: var(--bg);
+    border: 1.5px solid var(--line); color: var(--ink);
+    padding: 10px 12px; border-radius: 8px; margin: 7px 0;
+  }
+  .opt:hover { border-color: var(--accent); }
+  .opt.correct { background: var(--correct-soft); border-color: var(--correct); font-weight: bold; }
+  .opt.wrong { background: var(--tryagain-soft); border-color: var(--tryagain); }
+  .q { font-weight: bold; margin: 14px 0 4px; }
+
+  .feedback { margin: 8px 0 4px; padding: 9px 12px; border-radius: 8px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.good { background: var(--correct-soft); color: var(--correct); }
+  .feedback.try { background: var(--tryagain-soft); color: var(--tryagain); }
+
+  .btn {
+    font-family: inherit; font-size: 11pt; cursor: pointer;
+    background: var(--accent); color: #fff; border: none;
+    padding: 8px 16px; border-radius: 8px; margin: 6px 6px 6px 0;
+  }
+  .btn.ghost { background: var(--panel); color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn:active { transform: translatey(1px); }
+
+  .timer-bar { display: flex; align-items: center; gap: 12px; margin: 10px 0; flex-wrap: wrap; }
+  .timer { font-size: 16pt; font-weight: bold; color: var(--accent); min-width: 70px; }
+
+  .reveal-box { background: var(--bg); border: 1.5px dashed var(--line); border-radius: 8px; padding: 12px; margin: 8px 0; }
+  .hidden-ans { display: none; margin-top: 8px; }
+  .hidden-ans.show { display: block; }
+  .tick { color: var(--correct); font-weight: bold; }
+
+  .nudge {
+    background: var(--tryagain-soft); border-radius: 8px;
+    padding: 9px 12px; margin: 12px 0 0; font-size: 10.5pt; color: var(--tryagain);
+  }
+  .nudge b { color: var(--tryagain); }
+
+  .flashcard {
+    background: var(--accent-soft); border-radius: 12px; padding: 22px 16px;
+    text-align: center; cursor: pointer; min-height: 90px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.5pt; user-select: none;
+  }
+  .flash-hint { font-size: 10pt; color: var(--label); text-align: center; margin-top: 4px; }
+
+  input[type=text] {
+    font-family: inherit; font-size: 11.5pt; padding: 7px 9px;
+    border: 1.5px solid var(--line); border-radius: 7px; width: 130px;
+    background: #fff; color: var(--ink);
+  }
+  input.correct { border-color: var(--correct); background: var(--correct-soft); }
+  input.wrong { border-color: var(--tryagain); background: var(--tryagain-soft); }
+  .word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 14px; }
+  .word-bank span {
+    background: var(--accent-soft); color: var(--accent); font-weight: bold;
+    padding: 4px 11px; border-radius: 20px; font-size: 10.5pt;
+  }
+  textarea {
+    font-family: inherit; font-size: 11.5pt; width: 100%; min-height: 90px;
+    padding: 10px; border: 1.5px solid var(--line); border-radius: 8px;
+    background: #fff; color: var(--ink); resize: vertical;
+  }
+
+  .help-row { margin: 8px 0; }
+  .help-step { display: none; margin: 6px 0; padding: 9px 12px;
+    background: var(--bg); border-left: 3px solid var(--accent); border-radius: 6px; }
+  .help-step.show { display: block; }
+
+  details.markscheme { margin: 8px 0; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  details.markscheme summary { cursor: pointer; padding: 9px 12px; font-weight: bold; color: var(--accent); }
+  details.markscheme .body { padding: 0 12px 12px; }
+
+  .note { font-size: 10.5pt; color: var(--label); }
+  .examiner { background: var(--tryagain-soft); border-radius: 8px; padding: 8px 12px; margin: 10px 0; font-size: 10.5pt; }
+  .examiner strong { color: var(--tryagain); }
+  footer { text-align: center; color: var(--label); font-size: 10pt; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tier-pill">Foundation · Target Grade 4–5</span>
+  <h1>Atomic Structure &amp; the Periodic Table</h1>
+  <p class="sub">Year 9 Chemistry · AQA Combined Science</p>
+  <p class="note">Work down the page in order. Each part gets a little harder — that’s on purpose. Getting things wrong is how your brain learns, so don’t worry about it.</p>
+
+  <!-- HOW TO REVISE PANEL -->
+  <details class="panel">
+    <summary>How to revise — and why it works</summary>
+    <div class="pbody">
+      <p>You might already be putting time into revision — but if it isn’t showing up in your results, the <em>way</em> you’re revising might need a tweak. Here’s the approach that works.</p>
+
+      <h4>Step 1 — Recap a little, often (20–30 mins a week)</h4>
+      <div class="action-step">
+        <b>What to do:</b> Each week, spend a short block recapping chemistry — and aim for roughly the same amount of recap time as the lessons you had that week. If you have chemistry twice in a week, aim for about an hour of recap at home across the week.
+      </div>
+      <div class="action-step">
+        <b>What to focus on:</b> Look back at your assessments, mock exams and homework booklets and note every area you’re weak in. For most people that’s Year 9 content — and we want to go into Year 11 on solid foundations, with Year 9 and 10 already revised and practised. <b>Also: if you couldn’t answer the starter questions in class, those are your weak areas too — start there.</b>
+      </div>
+      <div class="action-step">
+        <b>Getting better once isn’t enough.</b> Being good at a topic today doesn’t mean you’ll still be good at it in six months. Revisit content throughout the year. Repetition and practice are what make it stick.
+      </div>
+
+      <h4>How do I actually recap?</h4>
+      <p><b>Flashcards</b> for definitions, equations, unit conversions, symbols, and any small question you keep making silly mistakes on. Use them daily until you get the answer word-for-word right 3–4 days in a row, then revisit a week later.<br>
+      <b>Summary sheet / mind map</b> for broader content: summarise a topic onto a double-sided sheet. If it’s good, it should help you answer the homework booklet. If it doesn’t, fix it using the correct language from the mark scheme. Learn it by reading and writing it out loud 3 times, then writing it from memory 3 times.</p>
+
+      <h4>Step 2 — Test whether it’s working (10–15 mins a week)</h4>
+      <div class="action-step">
+        <b>What to do:</b> Spend a short block doing about 15 marks of exam questions on the topics you’ve been recapping. In the two weeks before a test, build this up to around an hour a week. You’ll find questions in your homework booklets and previous in-class assessments.
+      </div>
+      <div class="action-step">
+        <b>Still making mistakes?</b> First check your revision resources aren’t wrong. If they’re fine and you’re still slipping up, it’s probably a gap in understanding — bring those exact questions to a lesson or intervention session, or reach out to your chemistry teacher for help and support. We can’t rely on surface-level chemistry for top grades, and the more you practise, the more your confidence grows.
+      </div>
+      <p class="note">In lessons: focus, ask for help when something doesn’t make sense, answer questions even if you might be wrong, and bring your equipment. Mistakes along the way are completely fine.</p>
+    </div>
+  </details>
+
+  <!-- STUCK / ABSENT PANEL -->
+  <details class="panel">
+    <summary>Stuck, absent, or forgotten this from before?</summary>
+    <div class="pbody">
+      <p>If you missed a lesson or you’ve forgotten a Year 9 topic, you’re not stuck — here’s where to look:</p>
+      <div class="action-step">
+        Go to your <b>Year 9 chemistry Showbie area</b>. That’s where you’ll find checklists for before assessments, digitalised homework booklets, revision links, and video links of lessons covered — including summary sheets for every Year 9 topic.
+      </div>
+      <div class="action-step">
+        If you made your notes properly in lessons, that’s the other place all this content should be.
+      </div>
+      <div class="action-step">
+        Still not clicking after that? <b>Reach out to your chemistry teacher</b> for help and support — in lesson, at intervention, or by email.
+      </div>
+    </div>
+  </details>
+
+  <nav class="ladder-nav" aria-label="Jump to section">
+    <button onclick="jump('warmup')">1 · Warm-up</button>
+    <button onclick="jump('learn')">2 · Learn</button>
+    <button onclick="jump('mcq')">3 · Multiple choice</button>
+    <button onclick="jump('match')">4 · Match</button>
+    <button onclick="jump('fill')">5 · Fill the blank</button>
+    <button onclick="jump('exam')">6 · Exam questions</button>
+    <button onclick="jump('extended')">7 · Longer answer</button>
+  </nav>
+</header>
+
+<!-- 1. WARM-UP -->
+<section class="step" id="warmup">
+  <p class="step-label">Step 1 of 7</p>
+  <h2>Warm-up retrieval</h2>
+  <p class="instruction">Books closed. Try to answer from memory, then click to check.</p>
+  <div class="timer-bar">
+    <span class="timer" id="timer">2:00</span>
+    <button class="btn" onclick="startTimer()">Start timer</button>
+    <span class="note">Aim for about 2 minutes. No score is saved.</span>
+  </div>
+
+  <div class="reveal-box">
+    <span class="topic-tag">Last lesson</span>
+    <p class="q">1. What are the two particles found in the nucleus of an atom?</p>
+    <button class="btn ghost" onclick="toggle('w1')">Check answer</button>
+    <div class="hidden-ans" id="w1"><span class="tick">✓</span> Protons and neutrons.</div>
+  </div>
+
+  <div class="reveal-box">
+    <span class="topic-tag">Last week</span>
+    <p class="q">2. An atom has no overall charge. What does this tell you about its protons and electrons?</p>
+    <button class="btn ghost" onclick="toggle('w2')">Check answer</button>
+    <div class="hidden-ans" id="w2"><span class="tick">✓</span> It has the same number of protons (+) and electrons (−), so the charges cancel out.</div>
+  </div>
+
+  <div class="reveal-box">
+    <span class="topic-tag">Last month</span>
+    <p class="q">3. What is the difference between an element and a compound?</p>
+    <button class="btn ghost" onclick="toggle('w3')">Check answer</button>
+    <div class="hidden-ans" id="w3"><span class="tick">✓</span> An element contains only one type of atom. A compound contains two or more different elements chemically bonded together.</div>
+  </div>
+  <div class="nudge"><b>Couldn’t answer one of these?</b> That’s not a failure — it’s your diagnostic. The questions you can’t do here are exactly the topics to work on first.</div>
+</section>
+
+<!-- 2. LEARN -->
+<section class="step" id="learn">
+  <p class="step-label">Step 2 of 7</p>
+  <h2>Learn the essentials</h2>
+  <p class="instruction">Read one box at a time. Don’t rush — these are the facts everything else builds on.</p>
+
+  <div class="learn-card">
+    <strong>The atom.</strong> Every substance is made of atoms. An atom has a tiny central <strong>nucleus</strong> (containing protons and neutrons), surrounded by <strong>electrons</strong> in shells (energy levels).
+  </div>
+
+  <h3>The three particles</h3>
+  <table>
+    <tr><th>Particle</th><th>Charge</th><th>Relative mass</th><th>Where</th></tr>
+    <tr><td>Proton</td><td>+1</td><td>1</td><td>Nucleus</td></tr>
+    <tr><td>Neutron</td><td>0</td><td>1</td><td>Nucleus</td></tr>
+    <tr><td>Electron</td><td>−1</td><td>Almost 0</td><td>Shells</td></tr>
+  </table>
+
+  <div class="learn-card">
+    <strong>Atomic number</strong> = number of protons (the bottom number). <br>
+    <strong>Mass number</strong> = protons + neutrons (the top number). <br>
+    Neutrons = mass number − atomic number.
+  </div>
+  <div class="learn-card">
+    <strong>Electronic structure.</strong> Electrons fill the inner shells first.
+    Shell 1 holds up to <strong>2</strong>, shell 2 holds up to <strong>8</strong>, shell 3 holds up to <strong>8</strong>.
+    Example: sodium (11 electrons) = <strong>2, 8, 1</strong>.
+  </div>
+  <div class="learn-card">
+    <strong>Isotopes</strong> are atoms of the same element (same number of protons) with a <strong>different number of neutrons</strong>.
+  </div>
+  <div class="learn-card">
+    <strong>The periodic table.</strong> <strong>Groups</strong> are the columns — same number of outer electrons, similar properties.
+    <strong>Periods</strong> are the rows. Elements are arranged by atomic number.
+  </div>
+  <div class="learn-card">
+    <strong>Group 1 (alkali metals):</strong> 1 outer electron, reactivity <strong>increases</strong> down the group. <br>
+    <strong>Group 7 (halogens):</strong> 7 outer electrons, reactivity <strong>decreases</strong> down the group. <br>
+    <strong>Group 0 (noble gases):</strong> full outer shell, so very <strong>unreactive</strong>.
+  </div>
+</section>
+
+<!-- 3. MCQ -->
+<section class="step" id="mcq">
+  <p class="step-label">Step 3 of 7</p>
+  <h2>Multiple choice</h2>
+  <p class="instruction">Pick one answer. If it’s not right, you’ll get a nudge — try again.</p>
+
+  <div class="q">1. An atom has 11 protons, 12 neutrons and 11 electrons. What is its mass number?</div>
+  <button class="opt" onclick="mcq(this,false)">11</button>
+  <button class="opt" onclick="mcq(this,false)">12</button>
+  <button class="opt" onclick="mcq(this,false)">22</button>
+  <button class="opt" onclick="mcq(this,true)">23</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">2. Which element is in Group 7 of the periodic table?</div>
+  <button class="opt" onclick="mcq(this,false)">Sodium</button>
+  <button class="opt" onclick="mcq(this,true)">Chlorine</button>
+  <button class="opt" onclick="mcq(this,false)">Argon</button>
+  <button class="opt" onclick="mcq(this,false)">Magnesium</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">3. What is the maximum number of electrons in the first shell?</div>
+  <button class="opt" onclick="mcq(this,false)">1</button>
+  <button class="opt" onclick="mcq(this,true)">2</button>
+  <button class="opt" onclick="mcq(this,false)">8</button>
+  <button class="opt" onclick="mcq(this,false)">18</button>
+  <div class="feedback" data-fb>—</div>
+
+  <div class="q">4. Elements in the same group have the same number of:</div>
+  <button class="opt" onclick="mcq(this,false)">Protons</button>
+  <button class="opt" onclick="mcq(this,false)">Neutrons</button>
+  <button class="opt" onclick="mcq(this,true)">Electrons in the outer shell</button>
+  <button class="opt" onclick="mcq(this,false)">Electron shells</button>
+  <div class="feedback" data-fb>—</div>
+</section>
+
+<!-- 4. MATCH -->
+<section class="step" id="match">
+  <p class="step-label">Step 4 of 7</p>
+  <h2>Match the key term</h2>
+  <p class="instruction">Choose the correct definition from the dropdown for each term.</p>
+
+  <p class="q">Atom</p>
+  <select class="opt" onchange="matchCheck(this,'a')">
+    <option value="">— choose —</option>
+    <option value="a">Smallest part of an element; has no overall charge</option>
+    <option value="b">Two or more elements chemically bonded</option>
+    <option value="c">Same element, different number of neutrons</option>
+    <option value="d">An atom that has gained or lost electrons</option>
+  </select>
+  <div class="feedback" data-fb>—</div>
+
+  <p class="q">Compound</p>
+  <select class="opt" onchange="matchCheck(this,'b')">
+    <option value="">— choose —</option>
+    <option value="a">Smallest part of an element; has no overall charge</option>
+    <option value="b">Two or more elements chemically bonded</option>
+    <option value="c">Same element, different number of neutrons</option>
+    <option value="d">An atom that has gained or lost electrons</option>
+  </select>
+  <div class="feedback" data-fb>—</div>
+
+  <p class="q">Isotope</p>
+  <select class="opt" onchange="matchCheck(this,'c')">
+    <option value="">— choose —</option>
+    <option value="a">Smallest part of an element; has no overall charge</option>
+    <option value="b">Two or more elements chemically bonded</option>
+    <option value="c">Same element, different number of neutrons</option>
+    <option value="d">An atom that has gained or lost electrons</option>
+  </select>
+  <div class="feedback" data-fb>—</div>
+
+  <p class="q">Ion</p>
+  <select class="opt" onchange="matchCheck(this,'d')">
+    <option value="">— choose —</option>
+    <option value="a">Smallest part of an element; has no overall charge</option>
+    <option value="b">Two or more elements chemically bonded</option>
+    <option value="c">Same element, different number of neutrons</option>
+    <option value="d">An atom that has gained or lost electrons</option>
+  </select>
+  <div class="feedback" data-fb>—</div>
+
+  <h3>Flashcards — Look, Cover, Write, Check</h3>
+  <p class="note">Read it, cover it in your mind, say the answer, <em>then</em> flip. Don’t flip too early!</p>
+  <div class="flashcard" onclick="flip(this)" data-back="2, 8, 1">What is the electronic structure of sodium (11 electrons)? <span class="note">(tap)</span></div>
+  <div class="flash-hint">Tap the card to reveal the answer</div>
+
+  <div class="flashcard" onclick="flip(this)" data-back="Reactivity increases down Group 1 (the outer electron is further from the nucleus, so it’s lost more easily).">Does reactivity increase or decrease down Group 1? <span class="note">(tap)</span></div>
+  <div class="flash-hint">Tap the card to reveal the answer</div>
+</section>
+
+<!-- 5. FILL THE BLANK -->
+<section class="step" id="fill">
+  <p class="step-label">Step 5 of 7</p>
+  <h2>Fill the blank</h2>
+
+  <h3>Stage A — with a word bank</h3>
+  <p class="instruction">Use the words below. Each is used once.</p>
+  <div class="word-bank">
+    <span>protons</span><span>neutrons</span><span>electrons</span><span>nucleus</span><span>atomic number</span>
+  </div>
+  <p>The centre of an atom is called the
+    <input type="text" data-ans="nucleus"> . It contains
+    <input type="text" data-ans="protons"> and
+    <input type="text" data-ans="neutrons"> .
+    Around it are the
+    <input type="text" data-ans="electrons"> .
+    The number of protons is called the
+    <input type="text" data-ans="atomic number"> .
+  </p>
+  <button class="btn" onclick="checkFill('fillA', this)">Check answers</button>
+  <div class="feedback" data-fb id="fillA-fb">—</div>
+
+  <h3>Stage B — no word bank</h3>
+  <p class="instruction">Same idea, but now from memory.</p>
+  <p>Isotopes are atoms of the same element with the same number of
+    <input type="text" data-ans="protons"> but a different number of
+    <input type="text" data-ans="neutrons"> .
+    Group 0 elements are called the noble gases. They are unreactive because they have a
+    <input type="text" data-ans="full"> outer shell.
+  </p>
+  <button class="btn" onclick="checkFill('fillB', this)">Check answers</button>
+  <div class="feedback" data-fb id="fillB-fb">—</div>
+</section>
+
+<!-- 6. EXAM-STYLE -->
+<section class="step" id="exam">
+  <p class="step-label">Step 6 of 7</p>
+  <h2>Exam-style questions</h2>
+  <p class="instruction">Have a real go first. Stuck? Use the hints — they help you think, they don’t just give the answer.</p>
+
+  <p class="q">1. Complete the table for fluorine (atomic number 9, mass number 19). [3 marks]</p>
+  <table>
+    <tr><th>Particle</th><th>Number</th></tr>
+    <tr><td>Protons</td><td><input type="text" data-ans="9"></td></tr>
+    <tr><td>Neutrons</td><td><input type="text" data-ans="10"></td></tr>
+    <tr><td>Electrons</td><td><input type="text" data-ans="9"></td></tr>
+  </table>
+  <button class="btn" onclick="checkFill('exam1', this)">Check answers</button>
+  <div class="feedback" data-fb id="exam1-fb">—</div>
+
+  <div class="help-row">
+    <button class="btn ghost" onclick="help('h1')">Need a hint?</button>
+    <div class="help-step" id="h1-1">🧠 <strong>Think first:</strong> protons = atomic number. So how many protons?</div>
+    <div class="help-step" id="h1-2">📋 <strong>Next clue:</strong> neutrons = mass number − atomic number = 19 − 9.</div>
+    <div class="help-step" id="h1-3">✅ <strong>Last step:</strong> a neutral atom has the same number of electrons as protons.</div>
+  </div>
+
+  <p class="q">2. Define the term “isotope”, using an example. [2 marks]</p>
+  <textarea placeholder="Type your answer here..."></textarea>
+  <details class="markscheme">
+    <summary>Show what a strong answer includes</summary>
+    <div class="body">
+      <p><span class="tick">✓</span> Atoms of the same element with the same number of protons.</p>
+      <p><span class="tick">✓</span> But a different number of neutrons.</p>
+      <p class="note">Example: Carbon-12 and Carbon-14 both have 6 protons, but 6 and 8 neutrons. Spelling isn’t marked — it’s the chemistry that counts.</p>
+    </div>
+  </details>
+
+  <p class="q">3. Explain why noble gases (Group 0) are unreactive. [2 marks]</p>
+  <textarea placeholder="Type your answer here..."></textarea>
+  <details class="markscheme">
+    <summary>Show what a strong answer includes</summary>
+    <div class="body">
+      <p><span class="tick">✓</span> They have a full outer shell (of electrons).</p>
+      <p><span class="tick">✓</span> So they do not need to gain, lose or share electrons.</p>
+    </div>
+  </details>
+
+  <div class="examiner">
+    <strong>Examiner tip:</strong> In “explain” questions, you must give a reason — not just a fact. “Full outer shell” earns one mark; saying <em>why</em> that makes them unreactive earns the second.
+  </div>
+
+  <div class="nudge"><b>Making the same mistake more than once?</b> First check your notes or revision resources aren’t wrong. If they’re right and it still won’t click, that’s a gap in understanding — bring this exact question to your chemistry teacher at a lesson or intervention session.</div>
+</section>
+
+<!-- 7. EXTENDED -->
+<section class="step" id="extended">
+  <p class="step-label">Step 7 of 7</p>
+  <h2>Longer answer — compare your answer</h2>
+  <p class="instruction">Write what you can. Then reveal the model answer and compare — don’t worry about spelling.</p>
+
+  <p class="q">The periodic table arranges elements in a particular way. Describe how elements are arranged, and explain why elements in the same group have similar chemical properties. [4 marks]</p>
+  <textarea placeholder="Take your time. Write everything you can remember..."></textarea>
+  <details class="markscheme">
+    <summary>Reveal model answer &amp; what’s missing</summary>
+    <div class="body">
+      <p><span class="tick">✓</span> Elements are arranged in order of increasing atomic number.</p>
+      <p><span class="tick">✓</span> Elements in the same group are in the same column.</p>
+      <p><span class="tick">✓</span> They have the same number of electrons in their outer shell.</p>
+      <p><span class="tick">✓</span> The number of outer electrons decides chemical properties, so same outer electrons = similar reactions.</p>
+      <p class="note"><strong>Check your answer:</strong> Did you mention <em>atomic number</em> AND <em>outer electrons</em>? Those are the two ideas the examiner is looking for. If you got the gist but missed a word, that’s fine — add it now in another colour.</p>
+    </div>
+  </details>
+</section>
+
+<footer>
+  Year 9 · Atomic Structure &amp; the Periodic Table · Foundation revision tool<br>
+  Getting things wrong is part of learning. Come back and try again another day — that’s when it really sticks.
+</footer>
+
+</div>
+
+<script>
+  function jump(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+  function toggle(id){ document.getElementById(id).classList.toggle('show'); }
+  function flip(el){
+    if(!el.dataset.flipped){ el.dataset.front = el.innerHTML; el.innerHTML = el.dataset.back; el.dataset.flipped="1"; }
+    else { el.innerHTML = el.dataset.front; el.dataset.flipped=""; }
+  }
+  function help(prefix){
+    for(let i=1;i<=3;i++){
+      const s = document.getElementById(prefix+'-'+i);
+      if(s && !s.classList.contains('show')){ s.classList.add('show'); break; }
+    }
+  }
+  function mcq(btn, correct){
+    const fb = btn.parentNode.querySelector('[data-fb]');
+    if(correct){
+      btn.classList.add('correct');
+      fb.textContent = "✓ Correct — well done.";
+      fb.className = "feedback show good";
+      [...btn.parentNode.querySelectorAll('.opt')].forEach(b=>b.disabled=true);
+    } else {
+      btn.classList.add('wrong'); btn.disabled = true;
+      fb.textContent = "Not quite — have another go. A wrong try is how your brain finds the right answer.";
+      fb.className = "feedback show try";
+    }
+  }
+  function matchCheck(sel, right){
+    const fb = sel.parentNode.querySelector('[data-fb]');
+    if(sel.value === ''){ fb.className="feedback"; return; }
+    if(sel.value === right){
+      sel.classList.add('correct'); sel.classList.remove('wrong');
+      fb.textContent = "✓ Correct."; fb.className = "feedback show good";
+    } else {
+      sel.classList.add('wrong'); sel.classList.remove('correct');
+      fb.textContent = "Try again — read each definition carefully."; fb.className = "feedback show try";
+    }
+  }
+  function norm(s){ return (s||'').trim().toLowerCase().replace(/\s+/g,' '); }
+  function checkFill(id, btn){
+    // collect the text inputs that sit between the previous button and this one
+    const all = [...document.querySelectorAll('section input[type=text]')];
+    // find inputs whose nearest following button is THIS button
+    const inputs = all.filter(inp => {
+      let n = inp;
+      while(n && n.nodeName!=='BUTTON'){ n = n.nextElementSibling || (n.parentNode && n.parentNode.nextElementSibling); 
+        if(n && n.querySelector && n.querySelector('button')) { n = n.querySelector('button'); break; } }
+      return false; // fallback handled below
+    });
+    // simpler reliable approach: inputs inside the same <section>, before this button, after any earlier check button
+    const section = btn.closest('section');
+    const nodes = [...section.querySelectorAll('input[type=text], button')];
+    const myIndex = nodes.indexOf(btn);
+    let start = 0;
+    for(let i=myIndex-1;i>=0;i--){ if(nodes[i].nodeName==='BUTTON'){ start=i+1; break; } }
+    const group = nodes.slice(start, myIndex).filter(n=>n.nodeName==='INPUT');
+    let right=0,total=0;
+    group.forEach(inp=>{
+      total++;
+      if(norm(inp.value)===norm(inp.dataset.ans)){ inp.classList.add('correct'); inp.classList.remove('wrong'); right++; }
+      else { inp.classList.add('wrong'); inp.classList.remove('correct'); }
+    });
+    const fb = document.getElementById(id+'-fb');
+    if(fb){
+      if(right===total && total>0){ fb.textContent="✓ All correct — brilliant."; fb.className="feedback show good"; }
+      else { fb.textContent="You got "+right+" of "+total+". The amber boxes need another look — check the spelling of the key word too."; fb.className="feedback show try"; }
+    }
+  }
+
+  let tLeft=120, tInt=null;
+  function startTimer(){
+    clearInterval(tInt); tLeft=120; render();
+    tInt=setInterval(()=>{ tLeft--; render(); if(tLeft<=0){ clearInterval(tInt); document.getElementById('timer').textContent="Time’s up — check your answers"; } },1000);
+  }
+  function render(){ const m=Math.floor(tLeft/60), s=tLeft%60; document.getElementById('timer').textContent = m+":"+(s<10?'0':'')+s; }
+</script>
+</body>
+</html>
